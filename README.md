@@ -145,7 +145,7 @@
     ~~~~
 ## Load
 ### SQL: Create the Schema
-* Data is organized into a schema four tables (kiva_loans, loan_regions, loan_themes, and field_partners)
+* Data is organized into a schema of four tables (kiva_loans, loan_regions, loan_themes, and field_partners)
 * Complete the following in MySQL to create the schema:
     * Use a SQL script to establish the database:
     ~~~~SQL
