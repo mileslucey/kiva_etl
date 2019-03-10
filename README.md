@@ -163,10 +163,10 @@
     
     ~~~~SQL
     CREATE TABLE field_partners(
-    	partner_id INT,
-	field_partner_name VARCHAR(200),
-	partner_sector VARCHAR(50),
-	PRIMARY KEY(partner_id)
+        partner_id INT,
+        field_partner_name VARCHAR(200),
+        partner_sector VARCHAR(50),
+        PRIMARY KEY(partner_id)
 	);
     ~~~~
     
@@ -174,9 +174,9 @@
     
     ~~~~SQL
     CREATE TABLE loan_themes(
-    	theme_id VARCHAR(100),
-	theme_type VARCHAR(100),
-	PRIMARY KEY(theme_id)
+        theme_id VARCHAR(100),
+        theme_type VARCHAR(100),
+        PRIMARY KEY(theme_id)
 	);
     ~~~~
     
@@ -185,14 +185,14 @@
     ~~~~SQL
     CREATE TABLE loan_regions(
         location_id INT,
-	iso VARCHAR(5),
-	country VARCHAR(50),
-	region VARCHAR(100),
-	world_region VARCHAR(50),
-	mpi FLOAT,
-	lat FLOAT,
-	lon FLOAT,
-	PRIMARY KEY(location_id)
+        iso VARCHAR(5),
+        country VARCHAR(50),
+        region VARCHAR(100),
+        world_region VARCHAR(50),
+        mpi FLOAT,
+        lat FLOAT,
+        lon FLOAT,
+        PRIMARY KEY(location_id)
 	);
     ~~~~
     
