@@ -247,3 +247,4 @@ cleaned_regions_df.to_sql(name="loan_regions",con=engine,if_exists="append",inde
 # Add the Kiva loans DataFrame to MySQL
 cleaned_kiva_loans_df.to_sql(name="kiva_loans",con=engine,if_exists="append",index=False,chunksize=2000)
 ~~~~
+## Conclusion/Ideas for Future Research
