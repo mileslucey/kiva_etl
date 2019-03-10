@@ -262,5 +262,5 @@ cleaned_kiva_loans_df.to_sql(name="kiva_loans",con=engine,if_exists="append",ind
 		* Do individual borrowers and group borrowers tend to have the same or different repayment intervals?
 		* Do individual borrowers and group borrowers tend to have higher or lower loan amounts?
 		* Do individual borrowers and group borrowers tend to have loans for similar or different purposes?
-		* Are group borrowers more or less likely to be from certain regions than individual borrowers?
+		* Do individual borrowers and group borrowers tend to be from similar or different regions?
 		
