@@ -160,6 +160,7 @@
     ~~~~
     * In the Kiva database, create the four separate tables:
     1. Field partners
+    
     ~~~~SQL
     CREATE TABLE field_partners(
     	partner_id INT,
@@ -168,7 +169,9 @@
 	PRIMARY KEY(partner_id)
 	);
     ~~~~
+    
     2. Loan themes
+    
     ~~~~SQL
     CREATE TABLE loan_themes(
     	theme_id VARCHAR(100),
@@ -176,7 +179,9 @@
 	PRIMARY KEY(theme_id)
 	);
     ~~~~
+    
     3. Loan regions
+    
     ~~~~SQL
     CREATE TABLE loan_regions(
     	location_id INT,
@@ -189,8 +194,10 @@
 	lon FLOAT,
 	PRIMARY KEY(location_id)
 	);
-    ~~~~        
+    ~~~~
+    
     4. Kiva loans
+    
     ~~~~SQL
     CREATE TABLE kiva_loans(
     	loan_id INT,
