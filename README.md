@@ -52,4 +52,12 @@
     cleaned_field_partner_df.drop_duplicates(subset=["partner_id"],keep="first",inplace=True)
     cleaned_field_partner_df.dropna(subset=["partner_id"],how="any",inplace=True)
     ~~~~
+### Cleaning
+* All four dataframes are cleaned using the following commands:
+    1. "drop_duplicates" to remove all duplicate entries in each dataframe
+    2. "to_datetime" to convert columns to datetime format that are initially registered as strings
+    3. "rename" to change column titles so that all column titles are lower case, contain zero spaces, and are overall clearly written
+    4. "dropna" to drop rows that have N/As in critical columns (e.g. if rows do not have information listed in their primary key figure)
+    5. "merge" in order to establish foreign key figures in tables where there is not a foreign key originally listed. The same command is also used to test if two tables can be linked together in a schema
+    6. "assign" in order to establish primary keys in tables where primary keys are not originally listed
     
