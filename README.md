@@ -34,24 +34,24 @@
 ## Transform
 * Python is used to create tables using only the relevant columns:
     1. Loans table:
-    ~~~~python
+  ~~~~python
     cleaned_kiva_loans_df = loans_themes_df[["loan_id","funded_amount","loan_amount","activity","loan_sector","purpose","currency","partner_id","posted_time","disbursed_time","funded_time","term_in_months","lender_count","repayment_interval","date","num_fem_borrowers","num_m_borrowers","total_borrowers","location_id","theme_id"]].copy()
-    ~~~~
+  ~~~~
     2. Regions table:
-    ~~~~python
+  ~~~~python
     cleaned_regions_df = regions_df[["location_id","iso","country","region","world_region","mpi","lat","lon"]].copy()
     cleaned_regions_df.drop_duplicates(["location_id"],keep="first",inplace=True)
-    ~~~~
+  ~~~~
     3. Loan theme table:
-    ~~~~python
+  ~~~~python
     cleaned_theme_df = cleaned_theme_df[["theme_id","theme_type"]].copy()
-    ~~~~
+  ~~~~
     4. Field partners table:
-    ~~~~python
+  ~~~~python
     cleaned_field_partner_df = loan_partner_df[["partner_id","field_partner_name","partner_sector"]].copy()
     cleaned_field_partner_df.drop_duplicates(subset=["partner_id"],keep="first",inplace=True)
     cleaned_field_partner_df.dropna(subset=["partner_id"],how="any",inplace=True)
-    ~~~~
+  ~~~~
 ### Cleaning
 * All four dataframes are cleaned using the following commands:
     1. "drop_duplicates" to remove all duplicate entries in each dataframe
