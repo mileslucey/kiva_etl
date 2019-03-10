@@ -184,7 +184,7 @@
     
     ~~~~SQL
     CREATE TABLE loan_regions(
-    	location_id INT,
+        location_id INT,
 	iso VARCHAR(5),
 	country VARCHAR(50),
 	region VARCHAR(100),
@@ -200,7 +200,7 @@
     
     ~~~~SQL
     CREATE TABLE kiva_loans(
-   	loan_id INT,
+        loan_id INT,
         funded_amount FLOAT,
         loan_amount FLOAT,
         activity VARCHAR(100),
