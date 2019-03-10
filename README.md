@@ -86,8 +86,8 @@
     loans_regions_df = pd.merge(kiva_loans_df,regions_df,how="left",left_on=["country","region"],right_on=["country","region"])
     
     # Create a "cleaned" DataFrame for Kiva loans with only the columns we need
-    cleaned_kiva_loans_df =         loans_regions_df[["loan_id","funded_amount","loan_amount","activity","loan_sector","use","currency","partner_id","posted_time","disbursed_time","funded_time","term_in_months","lender_count", "repayment_interval","date","num_fem_borrowers","num_m_borrowers","total_borrowers","location_id"]].copy()
-cleaned_kiva_loans_df.drop_duplicates(keep="first",inplace=True)
+    cleaned_kiva_loans_df = loans_regions_df[["loan_id","funded_amount","loan_amount","activity","loan_sector","use","currency","partner_id","posted_time","disbursed_time","funded_time","term_in_months","lender_count", "repayment_interval","date","num_fem_borrowers","num_m_borrowers","total_borrowers","location_id"]].copy()
+    cleaned_kiva_loans_df.drop_duplicates(keep="first",inplace=True)
     
     # Re-merge so to re-define the theme_id and ensure it will link
     loans_themes_df = pd.merge(cleaned_kiva_loans_df,cleaned_theme_df,how="left",left_on="theme_id_old",right_on="theme_id_old")
