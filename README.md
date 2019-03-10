@@ -60,4 +60,81 @@
     4. "dropna" to drop rows that have N/As in critical columns (e.g. if rows do not have information listed in their primary key figure)
     5. "merge" in order to establish foreign key figures in tables where there is not a foreign key originally listed. The same command is also used to test if two tables can be linked together in a schema
     6. "assign" in order to establish primary keys in tables where primary keys are not originally listed
+* Below is the Python code to clean each of the four dataframes:
+    1. Loans dataframe:
+    ~~~~python
+    # Delete duplicates
+    kiva_loans_df.drop_duplicates(keep="first",inplace=True)
     
+    # Rename "id" column to "loan_id" for clarity 
+    kiva_loans_df.rename(index=str, columns = {"id":"loan_id","sector":"loan_sector"},inplace=True)
+    
+    # Convert dates from string to datetime format
+    kiva_loans_df["posted_time"]=pd.to_datetime(kiva_loans_df["posted_time"])
+    kiva_loans_df["disbursed_time"]=pd.to_datetime(kiva_loans_df["disbursed_time"])
+    kiva_loans_df["funded_time"]=pd.to_datetime(kiva_loans_df["funded_time"])
+    kiva_loans_df["date"]=pd.to_datetime(kiva_loans_df["date"])
+    
+    # Create separate columns for the number of female, male, and total borrowers
+    kiva_loans_df["num_fem_borrowers"] = kiva_loans_df["borrower_genders"].str.count("female")
+    kiva_loans_df["num_m_borrowers"] = (kiva_loans_df["borrower_genders"].str.count("male")) - (kiva_loans_df["num_fem_borrowers"])
+    kiva_loans_df["total_borrowers"] = kiva_loans_df["num_fem_borrowers"] + kiva_loans_df["num_m_borrowers"]
+    
+    # Merge the loans and regions DataFrames to make sure we have a way to link them together
+    loans_regions_df = pd.merge(kiva_loans_df,regions_df,how="left",left_on=["country","region"],right_on=["country","region"])
+    
+    # Create a "cleaned" DataFrame for Kiva loans with only the columns we need
+    cleaned_kiva_loans_df =         loans_regions_df[["loan_id","funded_amount","loan_amount","activity","loan_sector","use","currency","partner_id","posted_time","disbursed_time","funded_time","term_in_months","lender_count", "repayment_interval","date","num_fem_borrowers","num_m_borrowers","total_borrowers","location_id"]].copy()
+cleaned_kiva_loans_df.drop_duplicates(keep="first",inplace=True)
+    
+    # Re-merge so to re-define the theme_id and ensure it will link
+    loans_themes_df = pd.merge(cleaned_kiva_loans_df,cleaned_theme_df,how="left",left_on="theme_id_old",right_on="theme_id_old")
+    
+    # Redefine the cleaned Kiva loans DataFrame to include a theme ID to link two dataframes together 
+    cleaned_kiva_loans_df =   loans_themes_df[["loan_id","funded_amount","loan_amount","activity","loan_sector","purpose","currency","partner_id","posted_time","disbursed_time","funded_time","term_in_months","lender_count","repayment_interval","date","num_fem_borrowers","num_m_borrowers","total_borrowers","location_id","theme_id"]].copy()
+    ~~~~
+    2. Regions dataframe:
+    ~~~~python
+    # Delete duplicates
+    regions_df.drop_duplicates(keep="first",inplace=True)
+    
+    # Create a location ID
+    regions_df.sort_values(["country","region"], ascending = True, inplace = True)
+    regions_df=regions_df.assign(location_id=(regions_df["country"]+"_"+regions_df["region"]).astype("category").cat.codes)
+    
+    # Rename columns with capital letters, spaces, or are otherwise unclear
+    regions_df.rename(index=str, columns = {"ISO":"iso","LocationName":"location_name","MPI":"mpi","sector":"loan_sector"},inplace=True)
+    
+    # Create "cleaned_regions_df" with only the relevant columns from the "regions_df" and drop duplicates
+    cleaned_regions_df = regions_df[["location_id","iso","country","region","world_region","mpi","lat","lon"]].copy()
+    cleaned_regions_df.drop_duplicates(["location_id"],keep="first",inplace=True)
+    ~~~~
+    3. Loan theme dataframe:
+    ~~~~python
+    # Rename columns not to have spaces in their titles
+    theme_df.rename(index=str, columns = {"id":"loan_id","Loan Theme ID":"theme_id_old","Loan Theme Type":"theme_type","Partner     ID":"partner_id"},inplace=True)
+    
+    # Define "cleaned_theme_df" as only the relevant columns and remove duplicates
+    cleaned_theme_df = theme_df[["theme_id_old","theme_type"]].copy()
+    cleaned_theme_df.sort_values("theme_id_old",inplace=True,ascending=True)
+    cleaned_theme_df.drop_duplicates(["theme_id_old"],keep="first",inplace=True)
+    
+    # The old theme_id relies on case sensitivity. Recreating the theme_id
+    cleaned_theme_df = cleaned_theme_df.assign(theme_id=(cleaned_theme_df["theme_id_old"]).astype("category").cat.codes)
+    ~~~~
+    4. Field partners dataframe:
+    ~~~~python
+    # Rename the columns that have spaces or capital letters
+    field_partner_df.rename(index=str, columns = {"Partner ID":"partner_id","Field Partner Name":"field_partner_name","Loan Theme     ID":"theme_id","Loan Theme Type":"theme_type","ISO":"iso","LocationName":"location_name","sector":"partner_sector"},inplace=True)
+    field_partner_df = field_partner_df[["partner_id","field_partner_name","partner_sector"]].copy()
+    field_partner_df.drop_duplicates(keep="first",inplace=True)
+    
+    # Merge loans and partner dataframes to make sure there aren't partners not attached to loans
+    loan_partner_df = pd.merge(cleaned_kiva_loans_df,field_partner_df,how="left",left_on="partner_id",right_on="partner_id")
+    
+    # Create cleaned dataframe with only the relevant columns and drop all duplicates
+    cleaned_field_partner_df = loan_partner_df[["partner_id","field_partner_name","partner_sector"]].copy()
+    cleaned_field_partner_df.drop_duplicates(subset=["partner_id"],keep="first",inplace=True)
+    cleaned_field_partner_df.dropna(subset=["partner_id"],how="any",inplace=True)
+    ~~~~
+
