@@ -62,7 +62,9 @@
     6. "assign" in order to establish primary keys in tables where primary keys are not originally listed
 * Below is the Python code to clean each of the four dataframes:
   1. Loans dataframe:
+    
     ~~~~python
+    
     # Delete duplicates
     kiva_loans_df.drop_duplicates(keep="first",inplace=True)
     
