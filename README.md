@@ -143,7 +143,7 @@
     cleaned_field_partner_df.drop_duplicates(subset=["partner_id"],keep="first",inplace=True)
     cleaned_field_partner_df.dropna(subset=["partner_id"],how="any",inplace=True)
     ~~~~
-## Transform
+## Load
 ### SQL: Create the Schema
 * Data is organized into a schema four tables (kiva_loans, loan_regions, loan_themes, and field_partners)
 * Complete the following in MySQL to create the schema:
