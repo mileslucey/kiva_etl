@@ -257,7 +257,7 @@ cleaned_kiva_loans_df.to_sql(name="kiva_loans",con=engine,if_exists="append",ind
 	* Performing an exploratory analysis on regions and Kiva loans:
 		* Do wealthier (from the mpi index score) or poorer regions have more Kiva recipents? Do these Kiva recipients ask for more or less money?
 		* Do different regions tend to have similar or different financial goals with their Kiva loans?
-		* Do Kiva recipients and partners tend to be from the same region or different region?
+		* Do Kiva recipients and partners tend to be from the same region or from different regions?
 	* Performing an exploratory analysis on individual versus group borrowers?
 		* Do individual and group borrowers tend to have different repayment intervals?
 		* Do individual or group borrowers tend to have higher loan amounts?
