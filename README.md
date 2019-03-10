@@ -144,7 +144,7 @@
     cleaned_field_partner_df.dropna(subset=["partner_id"],how="any",inplace=True)
     ~~~~
 ## Transform
-### SQL: Creating the Schema
+### SQL: Create the Schema
 * Data is organized into a schema four tables (kiva_loans, loan_regions, loan_themes, and field_partners)
 * Complete the following in MySQL to create the schema:
     * Use a SQL script to establish the database:
@@ -226,3 +226,24 @@
         FOREIGN KEY(location_id) REFERENCES loan_regions(location_id) ON DELETE CASCADE
 	);
     ~~~~    
+### Python: Connect DataFrames to MySQL Database
+* A MySQL database connection is created and an engine is created in Python **(if reproducing, make sure to add in the appropriate computer password)**:
+~~~~SQL
+# Establish the MySQL database connection and create the engine
+rds_connection_string = "root:<PASSWORD HERE>@127.0.0.1/kiva_db"
+engine = create_engine(f"mysql+pymysql://{rds_connection_string}?charset=utf8", encoding = "utf8")
+~~~~
+* The engine is used to populate all the SQL tables
+~~~~SQL
+# Add the field partner DataFrame to MySQL    
+cleaned_field_partner_df.to_sql(name="field_partners",con=engine,if_exists="append",index=False,chunksize=2000)
+
+# Add the theme DataFrame to MySQL
+cleaned_theme_df.to_sql(name="loan_themes",con=engine,if_exists="append",index=False)
+
+# Add the regions DataFrame to MySQL
+cleaned_regions_df.to_sql(name="loan_regions",con=engine,if_exists="append",index=False,chunksize=2000)
+
+# Add the Kiva loans DataFrame to MySQL
+cleaned_kiva_loans_df.to_sql(name="kiva_loans",con=engine,if_exists="append",index=False,chunksize=2000)
+~~~~
